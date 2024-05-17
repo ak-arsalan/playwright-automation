@@ -1,0 +1,154 @@
+Pre-Requisite: Node.JS and VS Code
+
+Terminal: npm init playwright@latest
+npx playwright test
+npx playwright show-report
+npx playwright test --workers 6
+npx playwright test --ui
+
+npx playwright test        runs all tests on all browsers in headless mode
+npx playwright test --workers 3    runs with 3 workers in parallel
+npx playwright test  one.spec.js     runs a specific test file
+npx playwright test  one.spec.js  two.spec.js   runs the files specified
+npx playwright test  one  two      runs files that have one or two in the file name
+npx playwright test -g "check title"   runs test with the title
+npx playwright test --project=chromium  runs on specific browser
+npx playwright test --headed    runs tests in headed mode
+npx playwright test --debug    debug tests
+npx playwright test example.spec.js --debug debug specific test file
+npx playwright test example.spec.js:21 --debug debug starting from specific line where test(..  starts
+
+npx playwrigt test .\tests\my_first_test.spec.js --headed
+Open terminal and run codegen   npx playwright codegen
+npx playwright codegen www.google.com
+npx playwright test recordedscript.spec.js --project chromium  --headed
+npx playwright codegen --help
+Record and save to a file  npx playwright codegen --target javascript -o record_example.js
+Set viewport - screen resolution (size)  npx playwright codegen --viewport-size=800,600
+Emulate devices  npx playwright codegen --device="iPhone 11"
+Emulate color scheme (if available) npx playwright codegen --color-scheme=dark
+npx playwright show-trace trace.zip
+
+Selectors: 
+using any object property
+await page.click('id=user-name')
+await page.locator('[id="user-name"]').click();
+await page.locator('id=user-name').fill(Graham)     // or
+await page.locator('[id="user-name"]').fill(Einstein)
+
+using CSS selector
+await page.locator('#login-button').click()
+using XPath
+await page.locator('xpath=//input[@name="login-button"]').click()
+await page.locator('//input[@name="login-button"]').click()
+using Text
+await page.locator('text=LOGIN').click();
+await page.locator('input:has-text("LOGIN")').click()
+
+Assertions:
+
+Check element Present/Not present
+await expect(page.locator('text=The Kitchen')).toHaveCount(1);
+await page.$('text=The Kitchen')
+
+Check element Visible/Hidden
+await expect(page.locator('text=The Kitchen')).toBeVisible()
+await expect(page.locator('text=The Kitchen')).toBeHidden()
+
+Check element  Enabled/Disabled
+await expect(page.locator('text=The Kitchen')).toBeEnabled()
+await expect(page.locator('text=The Kitchen')).toBeDisabled()
+
+How to add Soft Assertions
+do not terminate test execution
+mark the test as failed
+await expect.soft(page.locator('text=The Kitchen')).toHaveText('XYZ')
+
+await expect(page.locator('text=The Kitchen')).toHaveText('The Kitchen')
+await expect(page.locator('text=The Kitchen')).not.toHaveText('ABCD')
+
+*Assert Element attribute 
+ await expect(page.locator('selector')).toHaveAttribute('class', /.*value/)
+await expect(locator).toHaveClass('selected row');
+
+Check Url of the page
+await expect(page).toHaveURL(/kitchen.applitools.com/);
+Check Title of the page
+await expect(page).toHaveTitle(/.*Kitchen/);
+Check Page matches screenshot Visual Validation
+await expect(page).toHaveScreenshot();
+
+Open config file and add option for slow motion and video recording
+
+const config = {
+use: {
+   video: 'on',
+   launchOptions:{
+     slowMo: 1000
+   }
+
+slowMo slows down Playwright operations by the specified milliseconds
+
+video: 
+'on' - Record video for each test
+'off' - Do not record video
+'retain-on-failure' - Record for each test, but remove from successful test runs
+'on-first-retry' - Record only when retrying a test for the first time
+
+// launch browser
+const browser = await chromium.launch({
+   headless: false,
+   slowMo: 1000
+})
+// create a context for browser
+const context = await browser.newContext({
+   recordVideo: {
+       dir: 'videos/',
+       size: {width:800, height: 600}
+   }
+})
+
+Hooks:
+beforeAll
+beforeEach
+afterAll
+afterEach
+
+Groups:
+describe
+
+beforeAll
+executed before all tests in the file
+when used inside describe, runs before all tests in the group
+If multiple beforeAll is used, they will run in the order of their registration
+
+beforeEach
+executed before each test in the file
+when used inside describe, runs before each test in the group
+If multiple beforeEach is used, they will run in the order of their registration
+
+afterAll
+executes after all tests in the file
+when used inside describe, runs after all tests in the group
+If multiple afterAll is used, they will run in the order of their registration
+
+afterEach
+executes after each test in the file
+when used inside describe, runs after each test in the group
+If multiple afterEach is used, they will run in the order of their registration
+
+Annotations:
+only
+skip
+skip with condition
+fail
+fixme
+slow
+
+Tags:
+@smoke
+@reg
+
+
+Api Testing: https://reqres.in/
+
