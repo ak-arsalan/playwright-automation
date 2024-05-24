@@ -31,16 +31,22 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     //record video
     video: 'retain-on-failure',
-    launchOptions:{
+    launchOptions: {
+      args: ["--start-maximized"],
       slowMo: 500
     },
   },
+
+
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome '],
+        viewport: null
+      }
     },
 
     {

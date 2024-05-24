@@ -21,7 +21,7 @@ test('Post API  Test', async ({ request }) => {
 
     expect(response.status()).toBe(201);
     const text = await response.text();
-    expect(text).toContain('arsalan');  
+    expect(text).toContain('arsalan');
     console.log(await response.json());
 })
 
@@ -31,13 +31,13 @@ test('Put API  Test', async ({ request }) => {
         data: {
             "name": "ak",
             "job": "QA Engineer"
-        
+
         }
     })
 
     expect(response.status()).toBe(200);
     const text = await response.text();
-    expect(text).toContain('ak');  
+    expect(text).toContain('ak');
     console.log(await response.json());
 })
 
@@ -47,13 +47,13 @@ test('Patch API  Test', async ({ request }) => {
         data: {
             "name": "ak",
             "job": "QA Engineer"
-        
+
         }
     })
 
     expect(response.status()).toBe(200);
     const text = await response.text();
-    expect(text).toContain('ak');  
+    expect(text).toContain('ak');
     console.log(await response.json());
 })
 
